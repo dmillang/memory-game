@@ -35,17 +35,67 @@ function shuffle(array) {
  *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+*/
 
- // Select the parent element deck  
- const deck = document.querySelector(".deck");
+/*** Objective: Display the card's symbol ***/
 
- // Add event listener and use "classList" to know classes of the event.target
- // If the event.target has a class of "card" then toggle "open" and "show" classes
+// Select the parent element deck  
+const deck = document.querySelector(".deck");
+
+// Add event listener and use "classList" to know classes of the event.target
 deck.addEventListener('click', function() {
     const clickTarget = event.target;
-    if (clickTarget.classList.contains('card')) {
-        clickTarget.classList.toggle('open');
-        clickTarget.classList.toggle('show');        
+    if (isClickValid(clickTarget)) {
+        toggleCard(clickTarget);
+        addToggleCard(clickTarget);
+        if (toggledCards.length === 2) {
+            checkForMatch(clickTarget);
+        }
     }
 });
+
+// Create toggling function
+function toggleCard(card) {
+    card.classList.toggle('open');
+    card.classList.toggle('show');
+}
+
+// Validate clicked card
+function isClickValid(clickTarget) {
+    return (
+        clickTarget.classList.contains('card') &&
+        !clickTarget.classList.contains('match') &&
+        toggledCards.length < 2 && 
+        !toggledCards.includes(clickTarget)  
+    );
+}
+
+
+/*** Objective: Add the card to a list of open cards ***/
+
+// Array that will hold two toggled cards to compare them
+let toggledCards = [];
+
+// Add toggled cards to toggledCards array
+function addToggleCard(clickTarget) {
+    toggledCards.push(clickTarget);
+    console.log(toggledCards);
+}
+
+// Check if cards in the array match
+// If they match male 'match' class active by toggling it
+// If they don't match toggle their 'open' and 'show' classes
+function checkForMatch() {
+    if (toggledCards[0].firstElementChild.className === toggledCards[1].firstElementChild.className) {
+        toggledCards[0].classList.toggle('match');
+        toggledCards[1].classList.toggle('match');
+        toggledCards = [];
+    } else {
+        setTimeout(function() {
+            console.log("not a match");
+            toggleCard(toggledCards[0]);
+            toggleCard(toggledCards[1]);
+            toggledCards = [];
+        }, 1000);
+    };
+}
