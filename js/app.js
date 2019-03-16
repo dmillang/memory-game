@@ -1,14 +1,29 @@
 /*
- * Create a list that holds all of your cards
+* Globals
 */
+
+// Select the parent element deck  
+const deck = document.querySelector(".deck");
+
+// Array that will hold two toggled cards to compare them
+let toggledCards = [];
+
+// Moves counter
+let moves = 0;
+
+// global time variable
+let time = 0;
+
+// allow clock to be on or off
+let clockOff = true;
+
+// Identifier of the seconds passed since the first move
+let clockId;
 
 
 /*
 * Objective: Shuffle the deck
 */
-
-// Select the parent element deck  
-const deck = document.querySelector(".deck");
 
 // Function to shuffle the deck before starting
 function shuffleDeck() {
@@ -64,8 +79,14 @@ function shuffle(array) {
 deck.addEventListener('click', function() {
     const clickTarget = event.target;
     if (isClickValid(clickTarget)) {
+        // start clock
+        if (clockOff) {
+            startClock();
+            clockOff = false;
+        }
         toggleCard(clickTarget);
         addToggleCard(clickTarget);
+        // check if two cards match
         if (toggledCards.length === 2) {
             checkForMatch(clickTarget);
             addMove();
@@ -94,9 +115,6 @@ function isClickValid(clickTarget) {
 /*
 * Objective: Add the card to a list of open cards
 */
-
-// Array that will hold two toggled cards to compare them
-let toggledCards = [];
 
 // Add toggled cards to toggledCards array
 function addToggleCard(clickTarget) {
@@ -127,9 +145,6 @@ function checkForMatch() {
 * Objective: Set up move counter
 */
 
-// Moves counter
-let moves = 0;
-
 // Add 1 move to counter
 function addMove() {
     moves++;
@@ -158,4 +173,39 @@ function hideStar() {
             break;
         }
     }
+}
+
+
+/*
+* Objective: Set up the clock
+*/
+
+// setInterval function to monitor each second and place it in clockId
+function startClock() {
+    clockId = setInterval(function() {
+        time ++;
+        displayTime();
+        console.log(time);
+    }, 1000);
+}
+
+// display time count by changing 'clock' class element in the HTML
+function displayTime() {
+    // set up seconds format
+    let seconds = time % 60;
+    // set up minutes format
+    let minutes = Math.floor(time / 60);
+    // apply seconds and minutes to the HTML
+    const clock = document.querySelector('.clock');
+    console.log(clock);
+    if (seconds < 10) {
+        clock.innerHTML = `${minutes}:0${seconds}`;
+    } else {
+        clock.innerHTML = `${minutes}:${seconds}`;
+    }
+}
+
+// stop the clock with clockId
+function stopClock() {
+    clearInterval(clockId);
 }
