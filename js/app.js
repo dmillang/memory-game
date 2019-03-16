@@ -1,6 +1,24 @@
 /*
  * Create a list that holds all of your cards
- */
+*/
+
+
+/*
+* Objective: Shuffle the deck
+*/
+
+// Select the parent element deck  
+const deck = document.querySelector(".deck");
+
+// Function to shuffle the deck before starting
+function shuffleDeck() {
+    const cardsToShuffle = Array.from(document.querySelectorAll('.deck li'));
+    const shuffledCards = shuffle(cardsToShuffle);
+    for (card of shuffledCards) {
+        deck.appendChild(card);
+    }
+}
+shuffleDeck();
 
 
 /*
@@ -37,10 +55,9 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
 */
 
-/*** Objective: Display the card's symbol ***/
-
-// Select the parent element deck  
-const deck = document.querySelector(".deck");
+/*
+* Objective: Display the card's symbol
+*/
 
 // Add event listener and use "classList" to know classes of the event.target
 deck.addEventListener('click', function() {
@@ -71,7 +88,9 @@ function isClickValid(clickTarget) {
 }
 
 
-/*** Objective: Add the card to a list of open cards ***/
+/*
+* Objective: Add the card to a list of open cards
+*/
 
 // Array that will hold two toggled cards to compare them
 let toggledCards = [];
