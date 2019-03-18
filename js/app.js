@@ -209,3 +209,66 @@ function displayTime() {
 function stopClock() {
     clearInterval(clockId);
 }
+
+
+/*
+* Objective: Toggle visibililty of the modal pop-up board
+*/
+
+function toggleModal () {
+    const modal = document.querySelector('.modal__background');
+    modal.classList.toggle('hide');
+}
+
+/*
+* Objective: Add data to the modal
+*/
+
+// Modal tests
+time = 121;
+displayTime();
+moves = 16;
+checkScore();
+
+function writeModalStats() {
+    const timeStat = document.querySelector('.modal__time');
+    const clockTime = document.querySelector('.clock').innerHTML;
+    const movesStat = document.querySelector('.modal__moves');
+    const starsStat = document.querySelector('.modal__stars');
+    const stars = getStars();
+
+    timeStat.innerHTML = `Time = ${clockTime}`;
+    movesStat.innerHTML = `Moves = ${moves}`;
+    starsStat.innerHTML = `Stars = ${stars}`;
+}
+
+// Get number of stars
+function getStars() {
+    stars = document.querySelectorAll('.stars li');
+    starCount = 0;
+    for (star of stars) {
+        if (star.style.display !== 'none') {
+            starCount++;
+        }
+    }
+    console.log(starCount);
+    return starCount;
+}
+
+writeModalStats(); // Write stats to modal
+toggleModal(); // Open modals
+
+
+/*
+* Objective: Add functionality to modal buttons
+*/
+
+// Cancel button
+document.querySelector('.modal__button--cancel').addEventListener('click', function() {
+    toggleModal();
+});
+
+// Replay button
+document.querySelector('.modal__button--replay').addEventListener('click', function() {
+    // TODO: Call reset game here
+});
