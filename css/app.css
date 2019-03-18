@@ -150,6 +150,7 @@ box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
 .modal__close {
     font-weight: bold;
     font-size: 2rem;
+    cursor: pointer;
 }
 
 /* Modal pop-up stats in the middle area */
