@@ -70,6 +70,40 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
 */
 
+/*
+* Objective: Set up move counter // SOLVING BUG: FUNCTION MOVED UP IN THE TO SOLVE MODAL COUNTER COUNTING -1 MOVES //
+*/
+
+// Add 1 move to counter
+function addMove() {
+    moves++;
+    const movesText = document.querySelector('.moves');
+    movesText.innerHTML = moves;
+}
+
+
+/*
+* Objective: Set up star rating
+*/
+
+// Function to check score and call hideStar at move 10 and move 20
+function checkScore() {
+    if (moves === 15 || moves === 30) {
+        hideStar();
+    }
+}
+
+// Function to hide a star
+function hideStar() {
+    const starList = document.querySelectorAll('.stars li');
+    for (star of starList) {
+        if (star.style.display !== 'none') {
+            star.style.display = 'none';
+            break;
+        }
+    }
+}
+
 
 /*
 * Objective: Display the card's symbol
@@ -88,8 +122,8 @@ deck.addEventListener('click', function() {
         addToggleCard(clickTarget);
         // check if two cards match
         if (toggledCards.length === 2) {
-            checkForMatch(clickTarget);
             addMove();
+            checkForMatch(clickTarget);
             checkScore();
         }
     }
@@ -142,41 +176,6 @@ function checkForMatch() {
             toggledCards = [];
         }, 1000);
     };
-}
-
-
-/*
-* Objective: Set up move counter
-*/
-
-// Add 1 move to counter
-function addMove() {
-    moves++;
-    const movesText = document.querySelector('.moves');
-    movesText.innerHTML = moves;
-}
-
-
-/*
-* Objective: Set up star rating
-*/
-
-// Function to check score and call hideStar at move 10 and move 20
-function checkScore() {
-    if (moves === 10 || moves === 20) {
-        hideStar();
-    }
-}
-
-// Function to hide a star
-function hideStar() {
-    const starList = document.querySelectorAll('.stars li');
-    for (star of starList) {
-        if (star.style.display !== 'none') {
-            star.style.display = 'none';
-            break;
-        }
-    }
 }
 
 
@@ -280,6 +279,7 @@ function resetGame() {
     resetStars();
     resetCards();
     shuffleDeck();
+    toggledCards = []; // SOLVING BUG: RESET COUNTER OF FLIPPED CARDS WHEN RESETING AFTER ONLY FLIPPINF ONE CARD //
 }
 
 // Function to reset the clock and time
